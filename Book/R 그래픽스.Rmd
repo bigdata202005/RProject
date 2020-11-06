@@ -1,0 +1,33 @@
+---
+title: "R 그래픽스"
+output:
+  html_document:
+    df_print: paged
+---
+
+## 6.1 R 그래프를 위한 기본함수
+
+1. 고수준 함수: plot(), barplot(), boxplot(), hist(), pie(), persp()
+
+2. 저수준함수
+   2-1. 점그리기: points()  
+   2-2. 선그리기: lines(), abline(), arrows()  
+   2-3. 문자출력: text()  
+   2-4. 도형: rect(), ploygon()  
+   2-5. 좌표축: axis()  
+   2-6. 격자표현: grid()  
+
+## 6.2 plot() 함수
+* plot  
+
+
+```{r}
+  
+```
+
+
+```{r}
+x <- rnorm(100, sd=2); y <- 0.3 + 2*x + rnorm(100, sd=1)
+x
+plot(x)
+```

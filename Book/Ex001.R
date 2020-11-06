@@ -1,0 +1,135 @@
+# Ex001.R
+# 출력
+# print()
+?print
+print('Hello R!!!')
+print(1+2+3+4+5)
+print(pi)
+print(x = pi, digits = 3)
+# print함수는 1번에 1가지만 출력할 수 있어서 불편한 부분이 있다.
+print(pi, 4) # 4를 digit로 인식
+print('3, 6', 123)
+#--------------------------------------------------------------------
+# [1] "Hello R!!!"
+# [1] 15
+# [1] 3.141593
+# [1] 3.14
+# [1] 3.142
+# Error in print.default("3, 6", 123) : invalid printing digits 123
+#-------------------------------------------------------------------
+print('문자열')
+# 문자열을 따옴표로 갑싸는지 여부 지정
+print('문자열', quote=F)
+# 0의 표시 방법
+row1 = sample(0:5, 10, replace = T)
+row2 = sample(0:5, 10, replace = T)
+row1
+row2
+tb = table(row1, row2) # #table()함수는 데이터의 빈도를 보여준다.
+tb
+print(tb,  zero.print='.')
+print(NA, na.print = '0', )
+# 출력 폭지정
+print(1:10)
+print(1:10, width = 10 )
+print(1:10, width = 20 )
+print(1:10, width = 30 )
+
+# 출력 간격 지정
+print(1:10)
+print(1:10, print.gap = 3)
+
+? cat
+# 여러개 출력
+cat(1, 2, 3, 4)
+# print() 줄바꿈
+for(i in 1:5) print(i)
+# cat() 줄바꿈 하지 않음
+for(i in 1:5) cat(i)
+# 구분자 지정
+for(i in 1:5) cat(i, ' ')
+for(i in 1:5) cat(i, ',')
+# 마지막 \n출력
+for(i in 1:5) cat(i, end="\n")
+# \n의 처리 문자열 출력
+print("\n") # 문자열 출력
+cat(1,"\n",2,"\n") # 줄바꿈출력
+
+? sprintf
+# C언어와 같다.
+sprintf("%s씨의 생년월일은 %d년 %02d월 %02d일 입니다.", "한사람",2020,1,9)
+msg = sprintf("원주율 : %7.3f", pi)
+msg
+? gettextf
+gettextf("%s씨의 생년월일은 %d년 %02d월 %02d일 입니다.", "한사람",2020,1,9)
+msg = gettextf("원주율 : %7.3f", pi)
+msg
+
+? paste
+# 문자열로 만듬
+paste0 (1:12)
+paste (1:12) # 동일
+as.character (1:12) # 동일
+v2 = paste (1:12)
+v2
+class(v2)
+length(v2)
+str(v2)
+for(v in s1) cat(v, " ")
+
+# 문자열 연결
+s1 = paste(1, 2, 3, 4, 5)
+s1
+class(s1)
+length(s1)
+str(s1)
+
+# 문자열 연결
+s2 = paste('A', "AB", 123, "한사람", "씨씨", sep="*")
+s2
+class(s2)
+length(s2)
+str(s2)
+
+nth = paste0(1:12, c("st", "nd", "rd", rep("th", 9)))
+nth
+month.abb
+paste(month.abb, "is the", nth, "month of the year.", sep = "_*_")
+# paste(1:12, "월은 년도의 ", nth, "오는 개월입니다.", sep = " ")
+paste(month.abb, nth, sep = ": ", collapse = "; ")
+
+# recycle0 = TRUE : 0이면 결합하지 않겠다.
+valid = FALSE
+val = pi
+valid
+val
+val[T]
+val[F]
+val[valid] # 0
+s3 = paste("The value is", val[valid], "-- not so good!")
+s3
+s4 = paste("The value is", val[valid], "-- good: empty!", recycle0=TRUE)
+s4 # 0일 경우 빈문자열 리턴
+
+{}
+paste ( "foo", {}, "bar", collapse = "|") # |-> "foo bar" 
+paste ( "foo", {}, "bar", collapse = "|", recycle0 = TRUE) # |-> "" 
+NA
+paste ( "foo", {}, "bar", collapse = "|") # |-> "foo bar" 
+paste ( "foo", {}, "bar", collapse = "|", recycle0 = TRUE) # |-> "" 
+
+## 모두 빈 문자열을 리턴 
+paste (collapse = "|") 
+paste (collapse = "|", recycle0 = TRUE) 
+paste ({}, collapse = "|") 
+paste ({}, collapse = "|", recycle0 = TRUE)
+
+paste("Everybody", "loves", "stats.")
+paste("Everybody", "loves", "stats.", sep="-")
+paste("Everybody", "loves", "stats.", sep="")
+paste0("Everybody", "loves", "stats.")
+s<-c("Everybody","BoA")
+paste(s, "loves", "stats.")
+paste(s, "loves", "stats", collapse=", and ")
+
+

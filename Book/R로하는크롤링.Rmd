@@ -1,0 +1,113 @@
+---
+title: "R로 하는 크롤링"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+교보문고 홈페이지에서 종합베스트셀러 1위 제목을 가져오는 것입니다.   
+종합주간베스트 페이지는 교보문고 메인페이지에서 '베스트' 버튼을 클릭하면 접근이 가능합니다.   
+http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?orderClick=d79  
+먼저 위 URL에 있는 html 코드를 가져와야합니다.   
+html 코드를 읽을 때, R에서는 두가지 함수가 사용됩니다.   
+
+1) GET 함수를 이용하여 교보문고 서버에 내용 요청
+2) read_html 함수를 이용하여 html 코드 읽음
+
+R코딩을 해봅시다.   
+GET 함수는 httr 패키지, read_html 은 rvest 패키지에 들어있는 함수입니다.   
+따라서 먼저 패키지를 설치해주셔야 합니다.   
+  
+library 함수를 이용하여 패키지를 불러옵니다.   
+```{r}
+# R 패키지 설치
+# install.packages("httr")
+# install.packages("rvest")
+
+library(httr)
+library(rvest)
+```
+
+이제 GET함수를 이용하여 서버에 정보를 요청합시다.      
+url이라는 변수에 url주소를 문자열로 저장하였고, 이 변수에 GET 함수를 적용하였습니다.   
+GET 함수에서 요청한 결과를 data에 저장하였습니다.      
+
+```{r}
+url = 'http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?orderClick=d79'
+data = GET(url)
+data
+```
+
+read_html 함수를 이용하여 html 코드를 읽어봅시다.   
+
+```{r}
+my_html=read_html(data,encoding='EUC-KR')
+my_html
+```
+
+일단은 strong 태그를 전부 가져와봅시다.  
+
+```{r}
+pick1=html_nodes(my_html,'strong')
+pick1
+class(pick1)
+length(pick1)
+```
+
+1위 도서가 9번째 줄에 1위 도서 제목이 있습니다. 인덱싱을 통해 접근해봅시다 .  
+
+```{r}
+pick1[9]
+```
+
+이제 태그의 내용만 가져오면 됩니다. html_text 함수를 사용합니다.   
+
+```{r}
+result=html_text(pick1[9])
+result
+```
+
+
+```{r}
+# 네이버 실시간 검색어 읽기
+url = "https://datalab.naver.com/keyword/realtimeList.naver"
+data = GET(url)
+data
+my_html=read_html(data,encoding='UTF-8')
+my_html
+pick1=html_nodes(my_html,'ul.ranking_list')
+pick1
+pick1[1]
+result=html_text(pick1[1], trim = T)
+result
+library(stringr)
+result = str_replace_all(result, '\n', '')
+result
+# 중간의 공백 제거하기
+result = str_squish(result)
+result
+
+result=html_text(pick1[2])
+result = str_replace_all(result, '\n', '')
+result = str_squish(result)
+result
+```
+```{r}
+#라이브러리 불러오기
+library(httr)
+library(rvest)
+#GET 함수로 서버에 정보 요청하기
+url = 'https://www.melon.com/chart/'
+get_url = GET(url)
+#read_html 함수로 html 코드 읽기
+my_html=read_html(get_url,encoding='utf-8')
+#ellipsis rank01 클래스만 추출
+pick1=html_nodes(my_html,'.ellipsis.rank01')
+#a 태그만 추출
+pick2=html_nodes(pick1,'a')
+#텍스트 추출
+pick3=html_text(pick1,trim=TRUE)
+#top10순위
+print(pick3[1:10])
+```
+

@@ -1,0 +1,16 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+# width and height are in inches
+pdf("myplot.pdf", width = 4, height = 4)
+
+# Make plots
+plot(mtcars$wt, mtcars$mpg)
+print(ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point())
+plot(mtcars$wt, mtcars$mpg)
+print(ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point())
+```
+

@@ -1,0 +1,424 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={R로 하는 크롤링},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{R로 하는 크롤링}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+교보문고 홈페이지에서 종합베스트셀러 1위 제목을 가져오는 것입니다.\\
+종합주간베스트 페이지는 교보문고 메인페이지에서 `베스트' 버튼을 클릭하면
+접근이 가능합니다.\\
+\url{http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?orderClick=d79}~\\
+먼저 위 URL에 있는 html 코드를 가져와야합니다.\\
+html 코드를 읽을 때, R에서는 두가지 함수가 사용됩니다.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  GET 함수를 이용하여 교보문고 서버에 내용 요청
+\item
+  read\_html 함수를 이용하여 html 코드 읽음
+\end{enumerate}
+
+R코딩을 해봅시다.\\
+GET 함수는 httr 패키지, read\_html 은 rvest 패키지에 들어있는
+함수입니다.\\
+따라서 먼저 패키지를 설치해주셔야 합니다.
+
+library 함수를 이용하여 패키지를 불러옵니다.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# R 패키지 설치}
+\CommentTok{# install.packages("httr")}
+\CommentTok{# install.packages("rvest")}
+
+\KeywordTok{library}\NormalTok{(httr)}
+\KeywordTok{library}\NormalTok{(rvest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: xml2
+\end{verbatim}
+
+이제 GET함수를 이용하여 서버에 정보를 요청합시다.\\
+url이라는 변수에 url주소를 문자열로 저장하였고, 이 변수에 GET 함수를
+적용하였습니다.\\
+GET 함수에서 요청한 결과를 data에 저장하였습니다.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{url =}\StringTok{ 'http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?orderClick=d79'}
+\NormalTok{data =}\StringTok{ }\KeywordTok{GET}\NormalTok{(url)}
+\NormalTok{data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Response [http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?orderClick=d79]
+##   Date: 2020-10-14 08:33
+##   Status: 200
+##   Content-Type: text/html; charset=EUC-KR
+##   Size: 296 kB
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## ...
+\end{verbatim}
+
+read\_html 함수를 이용하여 html 코드를 읽어봅시다.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_html=}\KeywordTok{read_html}\NormalTok{(data,}\DataTypeTok{encoding=}\StringTok{'EUC-KR'}\NormalTok{)}
+\NormalTok{my_html}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## {html_document}
+## <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+## [1] <head>\n<title>교보문고 종합 주간 집계 | 국내도서 | 베스트셀러 - 교보문고</title>\n<!--MS의 최신 웹브 ...
+## [2] <body>\n<iframe name="HiddenActionFrame" frameborder="0" width="0" height ...
+\end{verbatim}
+
+일단은 strong 태그를 전부 가져와봅시다.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pick1=}\KeywordTok{html_nodes}\NormalTok{(my_html,}\StringTok{'strong'}\NormalTok{)}
+\NormalTok{pick1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## {xml_nodeset (166)}
+##  [1] <strong>바로콘으로 교보문고 소식 받기</strong>
+##  [2] <strong>서울</strong>
+##  [3] <strong>수도권</strong>
+##  [4] <strong>지방</strong>
+##  [5] <strong>자동로그인이 설정되어 있습니다.</strong>
+##  [6] <strong>분야 종합</strong>
+##  [7] <strong><a href="javascript:_go_targetPage('1')">1</a></strong>
+##  [8] <strong class="rank">1</strong>
+##  [9] <strong>보건교사 안은영(특별판)(양장본 HardCover)</strong>
+## [10] <strong class="book_price">12,600원</strong>
+## [11] <strong>10</strong>
+## [12] <strong>5</strong>
+## [13] <strong class="blue">내일(15일,목)</strong>
+## [14] <strong class="blue">  도착 예정</strong>
+## [15] <strong class="rank">2</strong>
+## [16] <strong>달러구트 꿈 백화점</strong>
+## [17] <strong class="book_price">12,420원</strong>
+## [18] <strong>10</strong>
+## [19] <strong>5</strong>
+## [20] <strong class="ebook_price">9,100원</strong>
+## ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(pick1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "xml_nodeset"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{length}\NormalTok{(pick1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 166
+\end{verbatim}
+
+1위 도서가 9번째 줄에 1위 도서 제목이 있습니다. 인덱싱을 통해
+접근해봅시다 .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pick1[}\DecValTok{9}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## {xml_nodeset (1)}
+## [1] <strong>보건교사 안은영(특별판)(양장본 HardCover)</strong>
+\end{verbatim}
+
+이제 태그의 내용만 가져오면 됩니다. html\_text 함수를 사용합니다.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result=}\KeywordTok{html_text}\NormalTok{(pick1[}\DecValTok{9}\NormalTok{])}
+\NormalTok{result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "보건교사 안은영(특별판)(양장본 HardCover)"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# 네이버 실시간 검색어 읽기}
+\NormalTok{url =}\StringTok{ "https://datalab.naver.com/keyword/realtimeList.naver"}
+\NormalTok{data =}\StringTok{ }\KeywordTok{GET}\NormalTok{(url)}
+\NormalTok{data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Response [https://datalab.naver.com/keyword/realtimeList.naver]
+##   Date: 2020-10-14 08:33
+##   Status: 200
+##   Content-Type: text/html;charset=UTF-8
+##   Size: 44.5 kB
+## <!DOCTYPE html>
+## <html lang="ko">
+## <head>
+##     <meta charset="utf-8">
+##     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+##     <meta name="viewport" content="width=1200">
+##     <title>급상승검색어 : 네이버 데이터랩</title>
+##     <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/stat...
+##     <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/stat...
+## 
+## ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_html=}\KeywordTok{read_html}\NormalTok{(data,}\DataTypeTok{encoding=}\StringTok{'UTF-8'}\NormalTok{)}
+\NormalTok{my_html}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## {html_document}
+## <html lang="ko">
+## [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+## [2] <body>\n\n\n<div id="wrap" class="wrap">\n    \n    \n    <div id="header ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pick1=}\KeywordTok{html_nodes}\NormalTok{(my_html,}\StringTok{'ul.ranking_list'}\NormalTok{)}
+\NormalTok{pick1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## {xml_nodeset (2)}
+## [1] <ul class="ranking_list">\n<li class="ranking_item">\n                    ...
+## [2] <ul class="ranking_list">\n<li class="ranking_item">\n                    ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pick1[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## {xml_nodeset (1)}
+## [1] <ul class="ranking_list">\n<li class="ranking_item">\n                    ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result=}\KeywordTok{html_text}\NormalTok{(pick1[}\DecValTok{1}\NormalTok{], }\DataTypeTok{trim =}\NormalTok{ T)}
+\NormalTok{result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "1\n                            \n                            김선아\n                            \n                            \n                            \n                        \n                        \n                            \n                            \n                            2\n                            \n                            박혜수\n                            \n                            \n                            \n                        \n                        \n                            \n                            \n                            3\n                            \n                            디어엠\n                            \n                            \n                            \n                        \n                        \n                            \n                            \n                            4\n                            \n                            김새론\n                            \n                            \n                            \n                        \n                        \n                            \n                            \n                            5\n                            \n                            정의선\n                            \n                            \n                            \n                        \n                        \n                            \n                            \n                            6\n                            \n                            해뜨락요양병원\n                            \n                            \n                            \n                        \n                        \n                            \n                            \n                            7\n                            \n                            영화 디파티드\n                                \n                                    디파티드\n                                \n                            \n                            \n                            \n                        \n                        \n                            \n                            \n                            8\n                            \n                            김선동\n                            \n                            \n                            \n                        \n                        \n                            \n                            \n                            9\n                            \n                            아이폰 12 pro\n                            \n                            \n                            \n                        \n                        \n                            \n                            \n                            10\n                            \n                            설리"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(stringr)}
+\NormalTok{result =}\StringTok{ }\KeywordTok{str_replace_all}\NormalTok{(result, }\StringTok{'}\CharTok{\textbackslash{}n}\StringTok{'}\NormalTok{, }\StringTok{''}\NormalTok{)}
+\NormalTok{result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "1                                                        김선아                                                                                                                                                                                                                        2                                                        박혜수                                                                                                                                                                                                                        3                                                        디어엠                                                                                                                                                                                                                        4                                                        김새론                                                                                                                                                                                                                        5                                                        정의선                                                                                                                                                                                                                        6                                                        해뜨락요양병원                                                                                                                                                                                                                        7                                                        영화 디파티드                                                                    디파티드                                                                                                                                                                                                                                                        8                                                        김선동                                                                                                                                                                                                                        9                                                        아이폰 12 pro                                                                                                                                                                                                                        10                                                        설리"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# 중간의 공백 제거하기}
+\NormalTok{result =}\StringTok{ }\KeywordTok{str_squish}\NormalTok{(result)}
+\NormalTok{result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "1 김선아 2 박혜수 3 디어엠 4 김새론 5 정의선 6 해뜨락요양병원 7 영화 디파티드 디파티드 8 김선동 9 아이폰 12 pro 10 설리"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result=}\KeywordTok{html_text}\NormalTok{(pick1[}\DecValTok{2}\NormalTok{])}
+\NormalTok{result =}\StringTok{ }\KeywordTok{str_replace_all}\NormalTok{(result, }\StringTok{'}\CharTok{\textbackslash{}n}\StringTok{'}\NormalTok{, }\StringTok{''}\NormalTok{)}
+\NormalTok{result =}\StringTok{ }\KeywordTok{str_squish}\NormalTok{(result)}
+\NormalTok{result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "11 호날두 12 호날두 코로나 13 권영세 14 김선아 설리 15 스파이더맨 3 16 옵티머스사건 17 부산해뜨락요양병원 18 정몽구 19 10월 14일 20 시스웍"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#라이브러리 불러오기}
+\KeywordTok{library}\NormalTok{(httr)}
+\KeywordTok{library}\NormalTok{(rvest)}
+\CommentTok{#GET 함수로 서버에 정보 요청하기}
+\NormalTok{url =}\StringTok{ 'https://www.melon.com/chart/'}
+\NormalTok{get_url =}\StringTok{ }\KeywordTok{GET}\NormalTok{(url)}
+\CommentTok{#read_html 함수로 html 코드 읽기}
+\NormalTok{my_html=}\KeywordTok{read_html}\NormalTok{(get_url,}\DataTypeTok{encoding=}\StringTok{'utf-8'}\NormalTok{)}
+\CommentTok{#ellipsis rank01 클래스만 추출}
+\NormalTok{pick1=}\KeywordTok{html_nodes}\NormalTok{(my_html,}\StringTok{'.ellipsis.rank01'}\NormalTok{)}
+\CommentTok{#a 태그만 추출}
+\NormalTok{pick2=}\KeywordTok{html_nodes}\NormalTok{(pick1,}\StringTok{'a'}\NormalTok{)}
+\CommentTok{#텍스트 추출}
+\NormalTok{pick3=}\KeywordTok{html_text}\NormalTok{(pick1,}\DataTypeTok{trim=}\OtherTok{TRUE}\NormalTok{)}
+\CommentTok{#top10순위}
+\KeywordTok{print}\NormalTok{(pick3[}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "DON'T TOUCH ME"                                
+##  [2] "Dynamite"                                      
+##  [3] "Lovesick Girls"                                
+##  [4] "취기를 빌려 (취향저격 그녀 X 산들)"            
+##  [5] "When We Disco (Duet with 선미)"                
+##  [6] "눈누난나 (NUNU NANA)"                          
+##  [7] "오래된 노래"                                   
+##  [8] "내 마음이 움찔했던 순간 (취향저격 그녀 X 규현)"
+##  [9] "Savage Love (Laxed - Siren Beat) (BTS Remix)"  
+## [10] "마리아 (Maria)"
+\end{verbatim}
+
+\end{document}
